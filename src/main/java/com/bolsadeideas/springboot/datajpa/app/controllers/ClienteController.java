@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.support.SessionStatus;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.Map;
 import java.util.Objects;
@@ -41,35 +42,43 @@ public class ClienteController {
     }
 
     @GetMapping(value = "/form/{id}")
-    public String crear(@PathVariable Long id, Model model) {
+    public String crear(@PathVariable Long id, Model model, RedirectAttributes redirectAttributes) {
         Cliente cliente = new Cliente();
         if(id < 0){
+            redirectAttributes.addFlashAttribute("danger", "Id incorrecto");
             return "redirect:/listar";
         }
+
         cliente = clienteService.findOne(id);
+        if(cliente == null){
+            redirectAttributes.addFlashAttribute("danger", "El Id del cliente no existe");
+            return "redirect:/listar";
+        }
+
         model.addAttribute("cliente", cliente );
         model.addAttribute("titulo", "Editar Cliente" );
         return "form";
     }
 
     @PostMapping("/form")
-    public String guardar(@Valid Cliente cliente, BindingResult result, Model model, SessionStatus status) {
+    public String guardar(@Valid Cliente cliente, BindingResult result, Model model, RedirectAttributes redirectAttributes, SessionStatus status) {
         if (result.hasErrors()) {
             model.addAttribute("titulo", "Formulario de Cliente" );
             return "form";
         }
         clienteService.save(cliente);
+        redirectAttributes.addFlashAttribute("success", "Cliente guardado con éxito");
         status.setComplete();
         return "redirect:/listar";
     }
 
     @GetMapping(value = "/form/eliminar/{id}")
-    public String eliminar(@PathVariable Long id) {
+    public String eliminar(@PathVariable Long id, RedirectAttributes redirectAttributes) {
 
         if(id > 0){
             clienteService.delete(id);
         }
-
+        redirectAttributes.addFlashAttribute("success", "Cliente eliminado con éxito");
         return "redirect:/listar";
     }
 
