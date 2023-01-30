@@ -2,9 +2,14 @@ package com.bolsadeideas.springboot.datajpa.app.controllers;
 
 import com.bolsadeideas.springboot.datajpa.app.models.dao.IClienteDao;
 import com.bolsadeideas.springboot.datajpa.app.models.entity.Cliente;
+import com.bolsadeideas.springboot.datajpa.app.service.ClienteService;
 import com.bolsadeideas.springboot.datajpa.app.service.IClienteService;
+import com.bolsadeideas.springboot.datajpa.app.util.paginator.PageRender;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -23,13 +28,22 @@ public class ClienteController {
 //    @Autowired
 //    private IClienteDao clienteDao;
 
+//    @Autowired
+//    private IClienteService clienteService;
+
     @Autowired
-    private IClienteService clienteService;
+    ClienteService clienteService;
 
     @GetMapping(value = "/listar")
-    public String listar(Model model) {
+    public String listar(@RequestParam(name = "page", defaultValue = "0") int page, Model model) {
+        Pageable pageable = PageRequest.of(page, 5);
+        Page<Cliente> clientePage = clienteService.findAll(pageable);
+        PageRender<Cliente> pageRender = new PageRender<>("/listar", clientePage);
+
         model.addAttribute("titulo", "Listado de clientes");
-        model.addAttribute("clientes", clienteService.findAll());
+        //model.addAttribute("clientes", clienteService.findAll());
+        model.addAttribute("clientes", clientePage);
+        model.addAttribute("page", pageRender);
         return "listar";
     }
 
