@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head th:replace="layout/layout :: head"></head>
+<body>
+<header th:replace="layout/layout :: header"></header>
+<div class="container my-4">
+  <div class="card">
+    <div class="row">
+      <div class="col">
+        <div class="card-header" th:text="${titulo}"></div>
+      </div>
+    </div>
+    <div class="row g-0">
+      <div class="col-md-4">
+        <img class="img-fluid rounded-start" th:if="${#strings.length(cliente.foto) > 0}" th:src="@{/uploads/} + ${cliente.foto}" th:alt="${cliente.foto}">
+      </div>
+      <div class="col-md-8">
+        <div class="card-body">
+          <ul class="list-group">
+            <li class="list-group-item" th:text="${cliente.nombre}"></li>
+            <li class="list-group-item" th:text="${cliente.apellido}"></li>
+            <li class="list-group-item" th:text="${cliente.email}"></li>
+            <li class="list-group-item" th:text="${cliente.createAt}"></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<footer th:replace="layout/layout :: footer"></footer>
+</body>
+</html>
