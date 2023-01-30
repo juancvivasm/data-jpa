@@ -1,4 +1,4 @@
-INSERT INTO clientes (id, nombre, apellido, email, create_at, foto) VALUES (1, 'Juan Carlos', 'Vivas Martinez', 'juanc.vivasm@gmail.com', '2023-01-26', 'fJC.jpg');
+INSERT INTO clientes (id, nombre, apellido, email, create_at, foto) VALUES (1, 'Juan Carlos', 'Vivas Martinez', 'juanc.vivasm@gmail.com', '2023-01-26', '');
 INSERT INTO clientes (id, nombre, apellido, email, create_at, foto) VALUES (2, 'Wilmarys', 'Navas Garcia', 'wilmarysnavas@gmail.com', '2023-01-26', '');
 INSERT INTO clientes (id, nombre, apellido, email, create_at, foto) VALUES (3, 'Juan David', 'Vivas Navas', 'juand.vivasn@gmail.com', '2023-01-26', '');
 INSERT INTO clientes (id, nombre, apellido, email, create_at, foto) VALUES (4, 'Cliente 04', 'Doe', 'jhondoe@gmail.com', '2023-01-30', '');
