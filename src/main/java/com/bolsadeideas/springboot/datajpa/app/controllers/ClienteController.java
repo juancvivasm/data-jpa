@@ -6,6 +6,8 @@ import com.bolsadeideas.springboot.datajpa.app.service.ClienteService;
 import com.bolsadeideas.springboot.datajpa.app.service.IClienteService;
 import com.bolsadeideas.springboot.datajpa.app.util.paginator.PageRender;
 import jakarta.validation.Valid;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
@@ -25,6 +27,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Map;
 import java.util.Objects;
+import java.util.UUID;
 
 @Controller
 @SessionAttributes("cliente")
@@ -39,6 +42,8 @@ public class ClienteController {
 
     @Autowired
     ClienteService clienteService;
+
+    private final Logger log = LoggerFactory.getLogger(getClass());
 
     @GetMapping(value = "/listar")
     public String listar(@RequestParam(name = "page", defaultValue = "0") int page, Model model) {
@@ -101,13 +106,17 @@ public class ClienteController {
         }
 
         if(!foto.isEmpty()){
-            String rootPath = "C://Temp//Uploads";
+            String uniqueFileName = UUID.randomUUID().toString() + "_" + foto.getOriginalFilename();
+            Path rootPath = Paths.get("uploads").resolve(uniqueFileName);
+            Path rootAbsolutePath = rootPath.toAbsolutePath();
+
+            log.info("ROOTPATH: " + rootPath);
+            log.info("ROOTABSOLUTEPATH: " + rootAbsolutePath);
+
             try {
-                byte[] bytes = foto.getBytes();
-                Path rutaCompleta = Paths.get(rootPath + "//" + foto.getOriginalFilename());
-                Files.write(rutaCompleta, bytes);
-                redirectAttributes.addFlashAttribute("info", "Has subido correctamente '" + foto.getOriginalFilename() + "'");
-                cliente.setFoto(foto.getOriginalFilename());
+                Files.copy(foto.getInputStream(), rootAbsolutePath);
+                redirectAttributes.addFlashAttribute("info", "Has subido correctamente '" + uniqueFileName + "'");
+                cliente.setFoto(uniqueFileName);
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }

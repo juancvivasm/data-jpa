@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="https://www.thymeleaf.org">
-<head th:replace="layout/layout :: head"></head>
+<head th:replace="layout/layout.html :: head"></head>
 <body>
-<header th:replace="layout/layout :: header"></header>
+<header th:replace="layout/layout.html :: header"></header>
 <div class="container my-4">
     <div class="card">
         <div class="card-header" th:text="${titulo}"></div>
@@ -50,6 +50,6 @@
         </div>
     </div>
 </div>
-<footer th:replace="layout/layout :: footer"></footer>
+<footer th:replace="layout/layout.html :: footer"></footer>
 </body>
 </html>
