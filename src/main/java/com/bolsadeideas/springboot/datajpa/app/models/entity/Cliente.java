@@ -6,12 +6,13 @@ import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import org.springframework.format.annotation.DateTimeFormat;
 
-import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name="clientes")
-public class Cliente implements Serializable {
+public class Cliente {
 
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
@@ -39,6 +40,9 @@ public class Cliente implements Serializable {
 //    public void prePersist(){
 //        createAt = new Date();
 //    }
+
+    @OneToMany(mappedBy="cliente", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    List<Factura> facturas = new ArrayList<>();
 
     public Long getId() {
         return id;
@@ -86,5 +90,17 @@ public class Cliente implements Serializable {
 
     public void setFoto(String foto) {
         this.foto = foto;
+    }
+
+    public List<Factura> getFacturas() {
+        return facturas;
+    }
+
+    public void setFacturas(List<Factura> facturas) {
+        this.facturas = facturas;
+    }
+
+    public void addFactura(Factura factura){
+        this.facturas.add(factura);
     }
 }
