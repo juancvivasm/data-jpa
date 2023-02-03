@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<body>
+
+<script th:fragment="javascript" type="text/javascript">
+  $( function() {
+    $( "#buscar_producto" ).autocomplete({
+      source: function( request, response ) {
+        $.ajax( {
+          url: "/factura/cargar-productos",
+          dataType: "json",
+          data: {
+            term: request.term
+          },
+          success: function( data ) {
+            //console.log(data);
+            //response(data);
+            response($.map(data, function(item){
+                return {
+                    value: item.id,
+                    label: item.nombre,
+                    precio: item.precio
+                };
+            }));
+          }
+        });
+      },
+      minLength: 2,
+      select: function( event, ui ) {
+        //log( "Selected: " + ui.item.value + " aka " + ui.item.id );
+        //console.log("Selected: " + ui.item.value + " aka " + ui.item.id);
+        $("#buscar_producto").val(ui.item.label);
+        return false;
+      }
+    });
+  });
+
+</script>
+</body>
+</html>

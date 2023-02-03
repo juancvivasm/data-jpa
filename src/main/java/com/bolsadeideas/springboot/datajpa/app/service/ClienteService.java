@@ -1,6 +1,8 @@
 package com.bolsadeideas.springboot.datajpa.app.service;
 
+import com.bolsadeideas.springboot.datajpa.app.models.dao.IProductoDao;
 import com.bolsadeideas.springboot.datajpa.app.models.entity.Cliente;
+import com.bolsadeideas.springboot.datajpa.app.models.entity.Producto;
 import com.bolsadeideas.springboot.datajpa.app.models.repository.ClienteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -15,6 +17,9 @@ public class ClienteService {
 
     @Autowired
     private ClienteRepository clienteRepository;
+
+    @Autowired
+    private IProductoDao productoDao;
 
     @Transactional(readOnly = true)
     public List<Cliente> findAll() {
@@ -39,5 +44,11 @@ public class ClienteService {
     @Transactional
     public void delete(Long id) {
         clienteRepository.deleteById(id);
+    }
+
+    @Transactional(readOnly = true)
+    public List<Producto> findByNombre(String term){
+        //return productoDao.findByNombre(term);
+        return productoDao.findByNombreLikeIgnoreCase("%"+term+"%");
     }
 }

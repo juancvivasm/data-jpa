@@ -1,7 +1,9 @@
 package com.bolsadeideas.springboot.datajpa.app.service;
 
 import com.bolsadeideas.springboot.datajpa.app.models.dao.IClienteDao;
+import com.bolsadeideas.springboot.datajpa.app.models.dao.IProductoDao;
 import com.bolsadeideas.springboot.datajpa.app.models.entity.Cliente;
+import com.bolsadeideas.springboot.datajpa.app.models.entity.Producto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -37,4 +39,5 @@ public class ClienteServiceImpl implements IClienteService {
     public void delete(Long id) {
         clienteDao.delete(id);
     }
+
 }
