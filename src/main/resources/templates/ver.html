@@ -10,6 +10,11 @@
         <div class="card-header" th:text="${titulo}"></div>
       </div>
     </div>
+    <div class="row m-1">
+      <div class="col">
+        <a class="btn btn-primary btn-sm" th:href="@{/factura/form/} + ${cliente.id}" th:text="'Crear Factura'"></a>
+      </div>
+    </div>
     <div class="row g-0">
       <div class="col-md-2">
         <img class="img-fluid rounded-start" th:if="${#strings.length(cliente.foto) > 0}" th:src="@{/uploads/} + ${cliente.foto}" th:alt="${cliente.foto}">
