@@ -1,6 +1,7 @@
 package com.bolsadeideas.springboot.datajpa.app.models.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotEmpty;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.ArrayList;
@@ -14,6 +15,7 @@ public class Factura {
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Long id;
 
+    @NotEmpty
     private String descripcion;
 
     private String observacion;
