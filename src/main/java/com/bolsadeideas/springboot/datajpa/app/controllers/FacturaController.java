@@ -3,7 +3,7 @@ package com.bolsadeideas.springboot.datajpa.app.controllers;
 import com.bolsadeideas.springboot.datajpa.app.models.entity.Cliente;
 import com.bolsadeideas.springboot.datajpa.app.models.entity.Factura;
 import com.bolsadeideas.springboot.datajpa.app.models.entity.Producto;
-import com.bolsadeideas.springboot.datajpa.app.service.ClienteService;
+import com.bolsadeideas.springboot.datajpa.app.service.IClienteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,7 +18,7 @@ import java.util.List;
 public class FacturaController {
 
     @Autowired
-    ClienteService clienteService;
+    private IClienteService clienteService;
 
     @GetMapping(value = "/form/{clienteId}")
     public String crear(@PathVariable(value = "clienteId") Long clienteId, Model model, RedirectAttributes redirectAttributes) {

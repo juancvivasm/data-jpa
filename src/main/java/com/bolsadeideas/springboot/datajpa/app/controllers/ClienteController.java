@@ -1,7 +1,7 @@
 package com.bolsadeideas.springboot.datajpa.app.controllers;
 
 import com.bolsadeideas.springboot.datajpa.app.models.entity.Cliente;
-import com.bolsadeideas.springboot.datajpa.app.service.ClienteService;
+import com.bolsadeideas.springboot.datajpa.app.service.IClienteService;
 import com.bolsadeideas.springboot.datajpa.app.service.UploadFileServiceImpl;
 import com.bolsadeideas.springboot.datajpa.app.util.paginator.PageRender;
 import jakarta.validation.Valid;
@@ -35,11 +35,11 @@ public class ClienteController {
 //    @Autowired
 //    private IClienteDao clienteDao;
 
-//    @Autowired
-//    private IClienteService clienteService;
-
     @Autowired
-    ClienteService clienteService;
+    private IClienteService clienteService;
+
+//    @Autowired
+//    ClienteService clienteService;
 
     @Autowired
     UploadFileServiceImpl uploadFileService;
