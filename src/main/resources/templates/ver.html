@@ -41,6 +41,7 @@
             <th scope="col">Fecha</th>
             <th scope="col">Total</th>
             <th scope="col">Ver</th>
+            <th scope="col">Eliminar</th>
           </tr>
           </thead>
           <tbody>
@@ -50,6 +51,8 @@
             <td th:text="${factura.createAt}">Fecha</td>
             <td th:text="${factura.total}">Total</td>
             <td><a class="btn btn-info btn-sm" th:href="@{/factura/ver/} + ${factura.id}" th:text="'Detalles'"></a></td>
+            <td><a class="btn btn-danger btn-sm" th:href="@{/factura/eliminar/} + ${factura.id}" th:text="'Eliminar'"
+                   onclick="return confirm('Estas seguro de eliminar la factura?');"></a></td>
           </tr>
           </tbody>
         </table>

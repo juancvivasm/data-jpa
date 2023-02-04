@@ -48,7 +48,7 @@ public class FacturaController {
     }
 
     @GetMapping(value = "/cargar-productos", produces = {"application/json"})
-    public @ResponseBody List<Producto> cargarProductos(@RequestParam(value = "term") String term){
+    public @ResponseBody List<Producto> cargarProductos(@RequestParam(value = "term") String term) {
         return clienteService.findByNombre(term);
     }
 
@@ -70,7 +70,7 @@ public class FacturaController {
             return "factura/form";
         }
 
-        for (int i = 0; i < itemId.length; i++){
+        for (int i = 0; i < itemId.length; i++) {
             Producto producto = clienteService.findProductoById(itemId[i]);
 
             ItemFactura linea = new ItemFactura();
@@ -78,7 +78,7 @@ public class FacturaController {
             linea.setProducto(producto);
             factura.addItemFactura(linea);
 
-            log.info("FacturaController:guardar: ID: "+ itemId[i].toString() +" CANTIDAD: " + cantidad[i].toString());
+            log.info("FacturaController:guardar: ID: " + itemId[i].toString() + " CANTIDAD: " + cantidad[i].toString());
         }
 
         clienteService.saveFactura(factura);
@@ -92,13 +92,28 @@ public class FacturaController {
     public String ver(@PathVariable(value = "id") Long id, Model model, RedirectAttributes redirectAttributes) {
         Factura factura = clienteService.findFacturaById(id);
         if (factura == null) {
-            redirectAttributes.addFlashAttribute("error", "La factura no existe en la base de datos");
+            redirectAttributes.addFlashAttribute("error", "La Factura NO Existe en la base de datos");
             return "redirect:/listar";
         }
         model.addAttribute("factura", factura);
         model.addAttribute("titulo", "Factura: ".concat(factura.getDescripcion()));
 
         return "factura/ver";
+    }
+
+    @GetMapping(value = "/eliminar/{id}")
+    public String eliminar(@PathVariable Long id, RedirectAttributes redirectAttributes) {
+        Factura factura = clienteService.findFacturaById(id);
+        if(factura == null){
+            redirectAttributes.addFlashAttribute("error", "La Factura NO Existe en la base de datos");
+        }
+
+        if (factura != null) {
+            clienteService.deleteFactura(id);
+            redirectAttributes.addFlashAttribute("success", "Factura eliminada con éxito");
+        }
+
+        return "redirect:/ver/" + factura.getCliente().getId();
     }
 
 }
