@@ -19,6 +19,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping(value = "/factura")
@@ -85,6 +86,19 @@ public class FacturaController {
 
         redirectAttributes.addFlashAttribute("success", "Factura guardada con éxito");
         return "redirect:/ver/" + factura.getCliente().getId();
+    }
+
+    @GetMapping("/ver/{id}")
+    public String ver(@PathVariable(value = "id") Long id, Model model, RedirectAttributes redirectAttributes) {
+        Factura factura = clienteService.findFacturaById(id);
+        if (factura == null) {
+            redirectAttributes.addFlashAttribute("error", "La factura no existe en la base de datos");
+            return "redirect:/listar";
+        }
+        model.addAttribute("factura", factura);
+        model.addAttribute("titulo", "Factura: ".concat(factura.getDescripcion()));
+
+        return "factura/ver";
     }
 
 }

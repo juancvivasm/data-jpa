@@ -103,4 +103,9 @@ public class Cliente {
     public void addFactura(Factura factura){
         this.facturas.add(factura);
     }
+
+    @Override
+    public String toString() {
+        return nombre + " " + apellido;
+    }
 }
