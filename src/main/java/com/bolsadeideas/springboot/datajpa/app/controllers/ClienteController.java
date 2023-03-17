@@ -15,6 +15,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -26,6 +28,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
+import java.util.Collection;
 import java.util.Map;
 
 
@@ -59,6 +62,12 @@ public class ClienteController {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if(auth != null){
             log.info("Método:listar: Usuario autenticado (Forma estática). Username: ".concat(auth.getName()));
+        }
+
+        if(hasRole("ROLE_ADMIN")){
+            log.info("Usuario: ".concat(auth.getName()).concat(" CON acceso de administrador"));
+        }else{
+            log.info("Usuario: ".concat(auth.getName()).concat(" SIN acceso de administrador"));
         }
 
         Pageable pageable = PageRequest.of(page, 5);
@@ -174,4 +183,25 @@ public class ClienteController {
         return "redirect:/listar";
     }
 
+    private boolean hasRole(String role){
+        SecurityContext context = SecurityContextHolder.getContext();
+        if(context == null){
+            return false;
+        }
+
+        Authentication auth = context.getAuthentication();
+        if(auth == null){
+            return false;
+        }
+
+        Collection<? extends GrantedAuthority> authorities = auth.getAuthorities();
+        for (GrantedAuthority authority: authorities){
+            if(role.equals(authority.getAuthority())){
+                log.info("Método: hasRole -> Usuario: ".concat(auth.getName()).concat(" ROLE: ".concat(authority.getAuthority())));
+                return true;
+            }
+        }
+
+        return false;
+    }
 }
