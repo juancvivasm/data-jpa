@@ -1,5 +1,7 @@
 package com.bolsadeideas.springboot.datajpa.app.config;
 
+import com.bolsadeideas.springboot.datajpa.app.auth.handler.LoginSuccesHandler;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -12,6 +14,9 @@ import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
 public class SpringSecurityConfig {
+
+    @Autowired
+    private LoginSuccesHandler succesHandler;
 
     @Bean
     public InMemoryUserDetailsManager userDetailsService() {
@@ -30,7 +35,10 @@ public class SpringSecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-                .formLogin(form -> form.loginPage("/login").permitAll())
+                .formLogin(form -> form
+                        .loginPage("/login")
+                        .successHandler(succesHandler)
+                        .permitAll())
                 .logout().permitAll()
                 .and()
                 .exceptionHandling().accessDeniedPage("/error_403")
