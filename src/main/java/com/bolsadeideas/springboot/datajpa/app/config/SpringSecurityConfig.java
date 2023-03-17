@@ -4,6 +4,7 @@ import com.bolsadeideas.springboot.datajpa.app.auth.handler.LoginSuccesHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -13,6 +14,7 @@ import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
+@EnableMethodSecurity(securedEnabled = true, prePostEnabled = true)
 public class SpringSecurityConfig {
 
     @Autowired
@@ -44,17 +46,12 @@ public class SpringSecurityConfig {
                 .exceptionHandling().accessDeniedPage("/error_403")
                 .and()
                 .authorizeHttpRequests(authorize -> authorize
-                        //.requestMatchers("/resources/**", "/signup", "/about").permitAll()
-                        //.requestMatchers("/admin/**").hasRole("ADMIN")
-                        //.requestMatchers("/db/**").access(new WebExpressionAuthorizationManager("hasRole('ADMIN') and hasRole('DBA')"))
-                        // .requestMatchers("/db/**").access(AuthorizationManagers.allOf(AuthorityAuthorizationManager.hasRole("ADMIN"), AuthorityAuthorizationManager.hasRole("DBA")))
-                        //.anyRequest().denyAll()
                         .requestMatchers("/", "/css/**", "/js/**", "/images/**", "/listar").permitAll()
-                        .requestMatchers("/ver/**").hasAnyRole("USER")
-                        .requestMatchers("/uploads/**").hasAnyRole("USER")
-                        .requestMatchers("/form/**").hasAnyRole("ADMIN")
-                        .requestMatchers("/eliminar/**").hasAnyRole("ADMIN")
-                        .requestMatchers("/factura/**").hasAnyRole("ADMIN")
+                        //.requestMatchers("/ver/**").hasAnyRole("USER")
+                        //.requestMatchers("/uploads/**").hasAnyRole("USER")
+                        //.requestMatchers("/form/**").hasAnyRole("ADMIN")
+                        //.requestMatchers("/eliminar/**").hasAnyRole("ADMIN")
+                        //.requestMatchers("/factura/**").hasAnyRole("ADMIN")
                         .anyRequest().authenticated()
                 );
 

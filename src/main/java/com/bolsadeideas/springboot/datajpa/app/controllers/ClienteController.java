@@ -15,6 +15,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -97,6 +98,7 @@ public class ClienteController {
         return "listar";
     }
 
+    @Secured("ROLE_USER")
     @GetMapping(value = "/uploads/{filename:.+}")
     public ResponseEntity<Resource> verFoto(@PathVariable("filename") String filename) {
 
@@ -112,6 +114,7 @@ public class ClienteController {
                 .body(recurso);
     }
 
+    @Secured("ROLE_USER")
     @GetMapping("/ver/{id}")
     public String ver(@PathVariable(value = "id") Long id, Map<String, Object> model, RedirectAttributes redirectAttributes) {
         //Cliente cliente = clienteService.findOne(id);
@@ -126,6 +129,7 @@ public class ClienteController {
         return "ver";
     }
 
+    @Secured("ROLE_ADMIN")
     @GetMapping(value = "/form")
     public String crear(Map<String, Object> model) {
         Cliente cliente = new Cliente();
@@ -134,6 +138,7 @@ public class ClienteController {
         return "form";
     }
 
+    @Secured("ROLE_ADMIN")
     @GetMapping(value = "/form/{id}")
     public String crear(@PathVariable Long id, Model model, RedirectAttributes redirectAttributes) {
         Cliente cliente = new Cliente();
@@ -153,6 +158,7 @@ public class ClienteController {
         return "form";
     }
 
+    @Secured("ROLE_ADMIN")
     @PostMapping("/form")
     public String guardar(@Valid Cliente cliente, BindingResult result, Model model, @RequestParam("fotoUpload") MultipartFile foto, RedirectAttributes redirectAttributes, SessionStatus status) {
         if (result.hasErrors()) {
@@ -182,6 +188,7 @@ public class ClienteController {
         return "redirect:/listar";
     }
 
+    @Secured("ROLE_ADMIN")
     @GetMapping(value = "/form/eliminar/{id}")
     public String eliminar(@PathVariable Long id, RedirectAttributes redirectAttributes) {
 
