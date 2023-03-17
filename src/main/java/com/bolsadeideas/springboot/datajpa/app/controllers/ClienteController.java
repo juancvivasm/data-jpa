@@ -80,6 +80,12 @@ public class ClienteController {
             log.info("Usando SecurityContextHolderAwareRequestWrapper: Usuario: ".concat(auth.getName()).concat(" SIN acceso de administrador"));
         }
 
+        if(request.isUserInRole("ROLE_ADMIN")){
+            log.info("Usando HttpServletRequest: Usuario: ".concat(auth.getName()).concat(" CON acceso de administrador"));
+        }else{
+            log.info("Usando HttpServletRequest: Usuario: ".concat(auth.getName()).concat(" SIN acceso de administrador"));
+        }
+
         Pageable pageable = PageRequest.of(page, 5);
         Page<Cliente> clientePage = clienteService.findAll(pageable);
         PageRender<Cliente> pageRender = new PageRender<>("/listar", clientePage);
