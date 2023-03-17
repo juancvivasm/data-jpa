@@ -4,6 +4,7 @@ import com.bolsadeideas.springboot.datajpa.app.models.entity.Cliente;
 import com.bolsadeideas.springboot.datajpa.app.service.IClienteService;
 import com.bolsadeideas.springboot.datajpa.app.service.UploadFileServiceImpl;
 import com.bolsadeideas.springboot.datajpa.app.util.paginator.PageRender;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,6 +20,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestWrapper;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -54,7 +56,7 @@ public class ClienteController {
 
     @GetMapping(value = {"/", "/listar"})
     public String listar(@RequestParam(name = "page", defaultValue = "0") int page, Model model,
-                         Authentication authentication) {
+                         Authentication authentication, HttpServletRequest request) {
 
         if(authentication != null){
             log.info("Método:listar: Usuario autenticado. Username: ".concat(authentication.getName()));
@@ -69,6 +71,13 @@ public class ClienteController {
             log.info("Usuario: ".concat(auth.getName()).concat(" CON acceso de administrador"));
         }else{
             log.info("Usuario: ".concat(auth.getName()).concat(" SIN acceso de administrador"));
+        }
+
+        SecurityContextHolderAwareRequestWrapper securityContext = new SecurityContextHolderAwareRequestWrapper(request, "ROLE_");
+        if(securityContext.isUserInRole("ADMIN")){
+            log.info("Usando SecurityContextHolderAwareRequestWrapper: Usuario: ".concat(auth.getName()).concat(" CON acceso de administrador"));
+        }else{
+            log.info("Usando SecurityContextHolderAwareRequestWrapper: Usuario: ".concat(auth.getName()).concat(" SIN acceso de administrador"));
         }
 
         Pageable pageable = PageRequest.of(page, 5);
