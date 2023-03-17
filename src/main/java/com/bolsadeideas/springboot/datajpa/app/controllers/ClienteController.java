@@ -16,6 +16,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -195,6 +196,8 @@ public class ClienteController {
         }
 
         Collection<? extends GrantedAuthority> authorities = auth.getAuthorities();
+        return authorities.contains(new SimpleGrantedAuthority(role));
+        /*
         for (GrantedAuthority authority: authorities){
             if(role.equals(authority.getAuthority())){
                 log.info("Método: hasRole -> Usuario: ".concat(auth.getName()).concat(" ROLE: ".concat(authority.getAuthority())));
@@ -203,5 +206,6 @@ public class ClienteController {
         }
 
         return false;
+        */
     }
 }
