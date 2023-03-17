@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<html lang="en" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org">
 <head th:fragment="head">
     <meta charset="UTF-8">
     <title th:text="'Spring Boot: MCV + Thymeleaf + Data JPA' + ${titulo}">Title</title>
@@ -18,6 +19,23 @@
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item">
                         <a class="nav-link active" aria-current="page" th:href="@{/listar}">Clientes</a>
+                    </li>
+                </ul>
+                <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                    <li sec:authorize="!isAuthenticated()" class="nav-item">
+                        <a class="nav-link active" aria-current="page" th:href="@{/login}">Sign In</a>
+                    </li>
+                    <li sec:authorize="isAuthenticated()" class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <span sec:authentication="name">JC</span>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li>
+                                <form id="logOutFrm" th:action="@{/logout}" method="post">
+                                    <a class="dropdown-item" href="#" onclick="document.getElementById('logOutFrm').submit();">Sign Out</a>
+                                </form>
+                            </li>
+                        </ul>
                     </li>
                 </ul>
             </div>

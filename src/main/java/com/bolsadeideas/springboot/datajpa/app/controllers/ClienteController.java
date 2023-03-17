@@ -46,7 +46,7 @@ public class ClienteController {
 
     private final Logger log = LoggerFactory.getLogger(getClass());
 
-    @GetMapping(value = "/listar")
+    @GetMapping(value = {"/", "/listar"})
     public String listar(@RequestParam(name = "page", defaultValue = "0") int page, Model model) {
         Pageable pageable = PageRequest.of(page, 5);
         Page<Cliente> clientePage = clienteService.findAll(pageable);
@@ -76,7 +76,8 @@ public class ClienteController {
 
     @GetMapping("/ver/{id}")
     public String ver(@PathVariable(value = "id") Long id, Map<String, Object> model, RedirectAttributes redirectAttributes) {
-        Cliente cliente = clienteService.findOne(id);
+        //Cliente cliente = clienteService.findOne(id);
+        Cliente cliente = clienteService.fetchByIdWithFacturas(id);
         if (cliente == null) {
             redirectAttributes.addFlashAttribute("error", "El cliente no existe en la base de datos");
             return "redirect:/listar";
