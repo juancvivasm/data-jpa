@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<html lang="en" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org">
 <head th:replace="~{layout/layout :: head}"></head>
 <body>
 <header th:replace="~{layout/layout :: header}"></header>
@@ -7,30 +8,30 @@
     <div class="card">
         <div class="card-header" th:text="${titulo}"></div>
         <div class="card-body">
-            <h5 class="card-title"><a class="btn btn-success btn-sm" th:href="@{/form}">Crear Cliente</a></h5>
+            <h5 class="card-title"><a sec:authorize="hasRole('ROLE_ADMIN')" class="btn btn-success btn-sm" th:href="@{/form}">Crear Cliente</a></h5>
             <table class="table table-hover">
                 <thead>
                 <tr>
-                    <th scope="col">ID</th>
+                    <th scope="col" sec:authorize="hasRole('ROLE_USER')">ID</th>
                     <th scope="col">NOMBRES</th>
                     <th scope="col">APELLIDOS</th>
                     <th scope="col">EMAIL</th>
                     <th scope="col">FECHA</th>
-                    <th scope="col">CREAR FACTURA</th>
-                    <th scope="col">EDITAR</th>
-                    <th scope="col">ELIMINAR</th>
+                    <th scope="col" sec:authorize="hasRole('ROLE_ADMIN')">CREAR FACTURA</th>
+                    <th scope="col" sec:authorize="hasRole('ROLE_ADMIN')">EDITAR</th>
+                    <th scope="col" sec:authorize="hasRole('ROLE_ADMIN')">ELIMINAR</th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr th:each="cliente : ${clientes}">
-                    <th scope="row"><a class="btn btn-primary btn-sm" th:href="@{/ver/} + ${cliente.id}" th:text="${cliente.id}"></a></th>
+                    <th scope="row" sec:authorize="hasRole('ROLE_USER')"><a class="btn btn-primary btn-sm" th:href="@{/ver/} + ${cliente.id}" th:text="${cliente.id}"></a></th>
                     <td th:text="${cliente.nombre}"></td>
                     <td th:text="${cliente.apellido}"></td>
                     <td th:text="${cliente.email}"></td>
                     <td th:text="${cliente.createAt}"></td>
-                    <td><a class="btn btn-success btn-sm" th:href="@{/factura/form/} + ${cliente.id}" th:text="'Crear Factura'"></a></td>
-                    <td><a class="btn btn-primary btn-sm" th:href="@{/form/} + ${cliente.id}" th:text="'Editar'"></a></td>
-                    <td><a class="btn btn-danger btn-sm" th:href="@{/form/eliminar/} + ${cliente.id}" th:text="'Eliminar'" onclick="return confirm('Estas seguro de eliminar el registro?');"></a></td>
+                    <td sec:authorize="hasRole('ROLE_ADMIN')"><a class="btn btn-success btn-sm" th:href="@{/factura/form/} + ${cliente.id}" th:text="'Crear Factura'"></a></td>
+                    <td sec:authorize="hasRole('ROLE_ADMIN')"><a class="btn btn-primary btn-sm" th:href="@{/form/} + ${cliente.id}" th:text="'Editar'"></a></td>
+                    <td sec:authorize="hasRole('ROLE_ADMIN')"><a class="btn btn-danger btn-sm" th:href="@{/form/eliminar/} + ${cliente.id}" th:text="'Eliminar'" onclick="return confirm('Estas seguro de eliminar el registro?');"></a></td>
                 </tr>
                 </tbody>
             </table>

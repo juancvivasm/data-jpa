@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<html lang="en" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org">
 <head th:replace="~{layout/layout :: head}"></head>
 <body>
 <header th:replace="~{layout/layout :: header}"></header>
@@ -12,7 +13,7 @@
     </div>
     <div class="row m-1">
       <div class="col">
-        <a class="btn btn-primary btn-sm" th:href="@{/factura/form/} + ${cliente.id}" th:text="'Crear Factura'"></a>
+        <a sec:authorize="hasRole('ROLE_ADMIN')" class="btn btn-primary btn-sm" th:href="@{/factura/form/} + ${cliente.id}" th:text="'Crear Factura'"></a>
       </div>
     </div>
     <div class="row g-0">
@@ -40,8 +41,8 @@
             <th scope="col">Descripcion</th>
             <th scope="col">Fecha</th>
             <th scope="col">Total</th>
-            <th scope="col">Ver</th>
-            <th scope="col">Eliminar</th>
+            <th scope="col" sec:authorize="hasRole('ROLE_ADMIN')">Ver</th>
+            <th scope="col" sec:authorize="hasRole('ROLE_ADMIN')">Eliminar</th>
           </tr>
           </thead>
           <tbody>
@@ -50,8 +51,8 @@
             <td th:text="${factura.descripcion}">Descripcion</td>
             <td th:text="${factura.createAt}">Fecha</td>
             <td th:text="${factura.total}">Total</td>
-            <td><a class="btn btn-info btn-sm" th:href="@{/factura/ver/} + ${factura.id}" th:text="'Detalles'"></a></td>
-            <td><a class="btn btn-danger btn-sm" th:href="@{/factura/eliminar/} + ${factura.id}" th:text="'Eliminar'"
+            <td sec:authorize="hasRole('ROLE_ADMIN')"><a class="btn btn-info btn-sm" th:href="@{/factura/ver/} + ${factura.id}" th:text="'Detalles'"></a></td>
+            <td sec:authorize="hasRole('ROLE_ADMIN')"><a class="btn btn-danger btn-sm" th:href="@{/factura/eliminar/} + ${factura.id}" th:text="'Eliminar'"
                    onclick="return confirm('Estas seguro de eliminar la factura?');"></a></td>
           </tr>
           </tbody>
