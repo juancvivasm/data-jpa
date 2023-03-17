@@ -16,6 +16,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -98,7 +99,7 @@ public class ClienteController {
         return "listar";
     }
 
-    @Secured("ROLE_USER")
+    @Secured({"ROLE_USER"})
     @GetMapping(value = "/uploads/{filename:.+}")
     public ResponseEntity<Resource> verFoto(@PathVariable("filename") String filename) {
 
@@ -114,7 +115,7 @@ public class ClienteController {
                 .body(recurso);
     }
 
-    @Secured("ROLE_USER")
+    @PreAuthorize("hasRole('ROLE_USER')")
     @GetMapping("/ver/{id}")
     public String ver(@PathVariable(value = "id") Long id, Map<String, Object> model, RedirectAttributes redirectAttributes) {
         //Cliente cliente = clienteService.findOne(id);
@@ -138,9 +139,9 @@ public class ClienteController {
         return "form";
     }
 
-    @Secured("ROLE_ADMIN")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping(value = "/form/{id}")
-    public String crear(@PathVariable Long id, Model model, RedirectAttributes redirectAttributes) {
+    public String editar(@PathVariable Long id, Model model, RedirectAttributes redirectAttributes) {
         Cliente cliente = new Cliente();
         if (id < 0) {
             redirectAttributes.addFlashAttribute("danger", "Id incorrecto");
