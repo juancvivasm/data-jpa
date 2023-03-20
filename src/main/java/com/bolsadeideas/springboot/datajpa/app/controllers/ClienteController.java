@@ -9,6 +9,7 @@ import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.core.io.Resource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -34,6 +35,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.Collection;
+import java.util.Locale;
 import java.util.Map;
 
 
@@ -56,9 +58,13 @@ public class ClienteController {
 
     private final Logger log = LoggerFactory.getLogger(getClass());
 
+    @Autowired
+    private MessageSource messageSource;
+
     @GetMapping(value = {"/", "/listar"})
     public String listar(@RequestParam(name = "page", defaultValue = "0") int page, Model model,
-                         Authentication authentication, HttpServletRequest request) {
+                         Authentication authentication, HttpServletRequest request,
+                         Locale locale) {
 
         if(authentication != null){
             log.info("Método:listar: Usuario autenticado. Username: ".concat(authentication.getName()));
@@ -92,7 +98,7 @@ public class ClienteController {
         Page<Cliente> clientePage = clienteService.findAll(pageable);
         PageRender<Cliente> pageRender = new PageRender<>("/listar", clientePage);
 
-        model.addAttribute("titulo", "Listado de clientes");
+        model.addAttribute("titulo", messageSource.getMessage("text.cliente.listar.titulo", null, locale));
         //model.addAttribute("clientes", clienteService.findAll());
         model.addAttribute("clientes", clientePage);
         model.addAttribute("page", pageRender);
