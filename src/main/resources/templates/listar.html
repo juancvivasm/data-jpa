@@ -5,21 +5,22 @@
 <body>
 <header th:replace="~{layout/layout :: header}"></header>
 <div class="container my-4">
+    <div id="i18n_eliminar_cliente" th:text="#{text.cliente.eliminarOk}" style="display: none;"></div>
     <div class="card">
         <div class="card-header" th:text="${titulo}"></div>
         <div class="card-body">
-            <h5 class="card-title"><a sec:authorize="hasRole('ROLE_ADMIN')" class="btn btn-success btn-sm" th:href="@{/form}">Crear Cliente</a></h5>
+            <h5 class="card-title"><a th:text="#{text.cliente.crear}" sec:authorize="hasRole('ROLE_ADMIN')" class="btn btn-success btn-sm" th:href="@{/form}">Crear Cliente</a></h5>
             <table class="table table-hover">
                 <thead>
                 <tr>
                     <th scope="col" sec:authorize="hasRole('ROLE_USER')">ID</th>
-                    <th scope="col">NOMBRES</th>
-                    <th scope="col">APELLIDOS</th>
-                    <th scope="col">EMAIL</th>
-                    <th scope="col">FECHA</th>
-                    <th scope="col" sec:authorize="hasRole('ROLE_ADMIN')">CREAR FACTURA</th>
-                    <th scope="col" sec:authorize="hasRole('ROLE_ADMIN')">EDITAR</th>
-                    <th scope="col" sec:authorize="hasRole('ROLE_ADMIN')">ELIMINAR</th>
+                    <th scope="col" th:text="#{text.cliente.nombre}">NOMBRES</th>
+                    <th scope="col" th:text="#{text.cliente.apellido}">APELLIDOS</th>
+                    <th scope="col" th:text="#{text.cliente.email}">EMAIL</th>
+                    <th scope="col" th:text="#{text.cliente.createAt}">FECHA</th>
+                    <th scope="col" th:text="#{text.cliente.factura.crear}" sec:authorize="hasRole('ROLE_ADMIN')">CREAR FACTURA</th>
+                    <th scope="col" th:text="#{text.cliente.editar}" sec:authorize="hasRole('ROLE_ADMIN')">EDITAR</th>
+                    <th scope="col" th:text="#{text.cliente.eliminar}" sec:authorize="hasRole('ROLE_ADMIN')">ELIMINAR</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -31,7 +32,7 @@
                     <td th:text="${cliente.createAt}"></td>
                     <td sec:authorize="hasRole('ROLE_ADMIN')"><a class="btn btn-success btn-sm" th:href="@{/factura/form/} + ${cliente.id}" th:text="'Crear Factura'"></a></td>
                     <td sec:authorize="hasRole('ROLE_ADMIN')"><a class="btn btn-primary btn-sm" th:href="@{/form/} + ${cliente.id}" th:text="'Editar'"></a></td>
-                    <td sec:authorize="hasRole('ROLE_ADMIN')"><a class="btn btn-danger btn-sm" th:href="@{/form/eliminar/} + ${cliente.id}" th:text="'Eliminar'" onclick="return confirm('Estas seguro de eliminar el registro?');"></a></td>
+                    <td sec:authorize="hasRole('ROLE_ADMIN')"><a class="btn btn-danger btn-sm" th:href="@{/form/eliminar/} + ${cliente.id}" th:text="'Eliminar'" onclick="return confirm(document.getElementById('i18n_eliminar_cliente').innerHTML);"></a></td>
                 </tr>
                 </tbody>
             </table>
