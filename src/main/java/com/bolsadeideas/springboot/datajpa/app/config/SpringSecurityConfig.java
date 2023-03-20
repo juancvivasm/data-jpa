@@ -4,14 +4,19 @@ import com.bolsadeideas.springboot.datajpa.app.auth.handler.LoginSuccesHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
+
+import javax.sql.DataSource;
 
 @Configuration
 @EnableMethodSecurity(securedEnabled = true, prePostEnabled = true)
@@ -20,9 +25,18 @@ public class SpringSecurityConfig {
     @Autowired
     private LoginSuccesHandler succesHandler;
 
+    @Autowired
+    private BCryptPasswordEncoder passwordEncoder;
+
+    @Autowired
+    private DataSource dataSource;
+
+    /*
     @Bean
     public InMemoryUserDetailsManager userDetailsService() {
-        PasswordEncoder encoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
+        PasswordEncoder encoder = this.passwordEncoder;
+
+        //PasswordEncoder encoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
         UserDetails admin = User.withUsername("admin")
                 .password(encoder.encode("12345"))
                 .roles("ADMIN", "USER")
@@ -32,6 +46,18 @@ public class SpringSecurityConfig {
                 .roles("USER")
                 .build();
         return new InMemoryUserDetailsManager(user, admin);
+    }
+     */
+
+    @Bean
+    AuthenticationManager authManager(HttpSecurity http) throws Exception {
+        return http.getSharedObject(AuthenticationManagerBuilder.class)
+                .jdbcAuthentication()
+                .dataSource(dataSource)
+                .passwordEncoder(passwordEncoder)
+                .usersByUsernameQuery("SELECT username, password, enabled FROM users WHERE username=?")
+                .authoritiesByUsernameQuery("SELECT u.username, a.authority FROM authorities a INNER JOIN users u on (a.user_id=u.id) WHERE u.username=?")
+                .and().build();
     }
 
     @Bean
