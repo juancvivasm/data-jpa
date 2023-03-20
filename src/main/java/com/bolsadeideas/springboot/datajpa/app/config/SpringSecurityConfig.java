@@ -1,6 +1,7 @@
 package com.bolsadeideas.springboot.datajpa.app.config;
 
 import com.bolsadeideas.springboot.datajpa.app.auth.handler.LoginSuccesHandler;
+import com.bolsadeideas.springboot.datajpa.app.service.JpaUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -10,6 +11,7 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -29,7 +31,10 @@ public class SpringSecurityConfig {
     private BCryptPasswordEncoder passwordEncoder;
 
     @Autowired
-    private DataSource dataSource;
+    private JpaUserDetailsService userDetailService;
+
+//    @Autowired
+//    private DataSource dataSource;
 
     /*
     @Bean
@@ -49,6 +54,7 @@ public class SpringSecurityConfig {
     }
      */
 
+    /*
     @Bean
     AuthenticationManager authManager(HttpSecurity http) throws Exception {
         return http.getSharedObject(AuthenticationManagerBuilder.class)
@@ -58,6 +64,14 @@ public class SpringSecurityConfig {
                 .usersByUsernameQuery("SELECT username, password, enabled FROM users WHERE username=?")
                 .authoritiesByUsernameQuery("SELECT u.username, a.authority FROM authorities a INNER JOIN users u on (a.user_id=u.id) WHERE u.username=?")
                 .and().build();
+    }
+    */
+
+    @Bean
+    public UserDetailsService userDetailsService(AuthenticationManagerBuilder build) throws Exception {
+        build.userDetailsService(userDetailService)
+                .passwordEncoder(passwordEncoder);
+        return build.getDefaultUserDetailsService();
     }
 
     @Bean
