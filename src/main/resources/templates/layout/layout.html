@@ -18,12 +18,12 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" th:href="@{/listar}">Clientes</a>
+                        <a class="nav-link active" aria-current="page" th:href="@{/listar}" th:text="#{text.menu.customer}">Clientes</a>
                     </li>
                 </ul>
                 <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                     <li sec:authorize="!isAuthenticated()" class="nav-item">
-                        <a class="nav-link active" aria-current="page" th:href="@{/login}">Sign In</a>
+                        <a class="nav-link active" aria-current="page" th:href="@{/login}" th:text="#{text.menu.signin}">Sign In</a>
                     </li>
                     <li sec:authorize="isAuthenticated()" class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -32,7 +32,7 @@
                         <ul class="dropdown-menu dropdown-menu-end">
                             <li>
                                 <form id="logOutFrm" th:action="@{/logout}" method="post">
-                                    <a class="dropdown-item" href="#" onclick="document.getElementById('logOutFrm').submit();">Sign Out</a>
+                                    <a class="dropdown-item" href="#" onclick="document.getElementById('logOutFrm').submit();" th:text="#{text.menu.signout}">Sign Out</a>
                                 </form>
                             </li>
                         </ul>

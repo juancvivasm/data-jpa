@@ -14,6 +14,11 @@
       <div class="col">
         <a class="btn btn-primary btn-sm" th:href="@{/ver/} + ${factura.cliente.id}" th:text="'&laquo; Volver'"></a>
       </div>
+      <div class="col">
+        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+          <a class="btn btn-danger btn-sm" th:href="@{'/factura/ver/'+ ${factura.id}(format=pdf)}" th:text="'PDF'"></a>
+        </div>
+      </div>
     </div>
     <div class="row">
       <div class="col">

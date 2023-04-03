@@ -3,11 +3,11 @@
 <body>
 <nav th:fragment="paginator" aria-label="Page navigation example">
     <ul class="pagination justify-content-center">
-        <li th:attr="class=${not page.hasPrevious ? 'page-item disabled' : 'page-item'}"><a class="page-link" th:if="${page.hasPrevious}" th:href="@{${page.url}(page=${page.paginaActual-2})}">Anterior</a></li>
+        <li th:attr="class=${not page.hasPrevious ? 'page-item disabled' : 'page-item'}"><a class="page-link" th:if="${page.hasPrevious}" th:href="@{${page.url}(page=${page.paginaActual-2})}" th:text="#{text.paginator.previous}">Anterior</a></li>
 
         <li th:each="item : ${page.paginas}" th:attr="class=${item.actual ? 'page-item active' : 'page-item'}"><a class="page-link" th:text="${item.numero}" th:href="@{${page.url}(page=${item.numero - 1})}"></a></li>
 
-        <li th:attr="class=${not page.hasNext ? 'page-item disabled' : 'page-item'}"><a class="page-link" th:if="${page.hasNext}" th:href="@{${page.url}(page=${page.paginaActual})}">Siguiente</a></li>
+        <li th:attr="class=${not page.hasNext ? 'page-item disabled' : 'page-item'}"><a class="page-link" th:if="${page.hasNext}" th:href="@{${page.url}(page=${page.paginaActual})}" th:text="#{text.paginator.next}">Siguiente</a></li>
     </ul>
 </nav>
 </body>
