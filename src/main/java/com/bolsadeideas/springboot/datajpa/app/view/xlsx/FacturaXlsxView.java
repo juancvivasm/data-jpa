@@ -14,6 +14,8 @@ import java.util.Map;
 public class FacturaXlsxView extends AbstractXlsxView {
     @Override
     protected void buildExcelDocument(Map<String, Object> model, Workbook workbook, HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+        response.setHeader("Content-Disposition", "attachment; filename=\"Factura.xlsx\"");
         Factura factura = (Factura) model.get("factura");
         Sheet sheet = workbook
                 .createSheet("Factura Spring");
@@ -64,13 +66,30 @@ public class FacturaXlsxView extends AbstractXlsxView {
         for (ItemFactura item: factura.getItems()
              ) {
             Row fila = sheet.createRow(rownum++);
-            fila.createCell(0).setCellValue(item.getProducto().getNombre());
-            fila.createCell(1).setCellValue(item.getProducto().getPrecio());
-            fila.createCell(2).setCellValue(item.getCantidad());
-            fila.createCell(3).setCellValue(item.calcularImporte());
+
+            cell = fila.createCell(0);
+            cell.setCellValue(item.getProducto().getNombre());
+            cell.setCellStyle(tbodyStyle);
+
+            cell = fila.createCell(1);
+            cell.setCellValue(item.getProducto().getPrecio());
+            cell.setCellStyle(tbodyStyle);
+
+            cell = fila.createCell(2);
+            cell.setCellValue(item.getCantidad());
+            cell.setCellStyle(tbodyStyle);
+
+            cell = fila.createCell(3);
+            cell.setCellValue(item.calcularImporte());
+            cell.setCellStyle(tbodyStyle);
         }
         Row filaTotal = sheet.createRow(rownum++);
-        filaTotal.createCell(2).setCellValue("TOTAL: ");
-        filaTotal.createCell(3).setCellValue(factura.getTotal());
+        cell = filaTotal.createCell(2);
+        cell.setCellValue("TOTAL: ");
+        cell.setCellStyle(theaderStyle);
+
+        cell = filaTotal.createCell(3);
+        cell.setCellValue(factura.getTotal());
+        cell.setCellStyle(tbodyStyle);
     }
 }
