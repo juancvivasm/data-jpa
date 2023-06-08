@@ -1,8 +1,8 @@
 /* Populate tables */
--- INSERT INTO clientes (nombre, apellido, email, create_at, foto) VALUES('Andres', 'Guzman', 'profesor@bolsadeideas.com', '2017-08-01', '');
+INSERT INTO clientes (nombre, apellido, email, create_at, foto) VALUES('Andres', 'Guzman', 'profesor@bolsadeideas.com', '2017-08-01', '');
 INSERT INTO clientes (nombre, apellido, email, create_at, foto) VALUES('Juan Carlos', 'Vivas M', 'juanc.vivasm@gmail.com', '2023-02-03', '');
-INSERT INTO clientes (nombre, apellido, email, create_at, foto) VALUES('Wilmarys', 'Navas', 'wilmarysnavas@gmail.com', '2023-02-03', '');
-INSERT INTO clientes (nombre, apellido, email, create_at, foto) VALUES('Juan David', 'Vivas N', 'juanc.vivasm@gmail.com', '2023-02-03', '');
+--INSERT INTO clientes (nombre, apellido, email, create_at, foto) VALUES('Wilmarys', 'Navas', 'wilmarysnavas@gmail.com', '2023-02-03', '');
+--INSERT INTO clientes (nombre, apellido, email, create_at, foto) VALUES('Juan David', 'Vivas N', 'juanc.vivasm@gmail.com', '2023-02-03', '');
 INSERT INTO clientes (nombre, apellido, email, create_at, foto) VALUES('John', 'Doe', 'john.doe@gmail.com', '2017-08-02', '');
 INSERT INTO clientes (nombre, apellido, email, create_at, foto) VALUES('Linus', 'Torvalds', 'linus.torvalds@gmail.com', '2017-08-03', '');
 INSERT INTO clientes (nombre, apellido, email, create_at, foto) VALUES('Jane', 'Doe', 'jane.doe@gmail.com', '2017-08-04', '');
