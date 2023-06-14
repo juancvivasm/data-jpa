@@ -2,6 +2,7 @@ package com.bolsadeideas.springboot.datajpa.app.models.entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.xml.bind.annotation.XmlTransient;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.ArrayList;
@@ -68,6 +69,7 @@ public class Factura {
         this.createAt = createAt;
     }
 
+    @XmlTransient
     public Cliente getCliente() {
         return cliente;
     }

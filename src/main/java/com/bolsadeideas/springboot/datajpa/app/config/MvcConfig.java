@@ -1,5 +1,8 @@
 package com.bolsadeideas.springboot.datajpa.app.config;
 
+import com.bolsadeideas.springboot.datajpa.app.models.entity.Cliente;
+import com.bolsadeideas.springboot.datajpa.app.models.entity.Factura;
+import com.bolsadeideas.springboot.datajpa.app.view.xml.ClienteList;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.oxm.jaxb.Jaxb2Marshaller;
@@ -45,9 +48,12 @@ public class MvcConfig implements WebMvcConfigurer {
     }
 
     @Bean
-    public Jaxb2Marshaller jaxb2Marshaller(){
+    public Jaxb2Marshaller jaxb2Marshaller() {
         Jaxb2Marshaller marshaller = new Jaxb2Marshaller();
-        marshaller.setClassesToBeBound(new Class[] { com.bolsadeideas.springboot.datajpa.app.view.xml.ClienteList.class });
+        //marshaller.setClassesToBeBound(new Class[] {com.bolsadeideas.springboot.datajpa.app.view.xml.ClienteList.class});
+        //marshaller.setPackagesToScan("com.bolsadeideas.springboot.datajpa.app.view.xml");
+        marshaller.setClassesToBeBound(Cliente.class, Factura.class, ClienteList.class);
+
         return marshaller;
     }
 

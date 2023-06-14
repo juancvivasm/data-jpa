@@ -20,8 +20,7 @@ public class ClienteListXmlView extends MarshallingView {
     }
 
     @Override
-    protected void renderMergedOutputModel(Map<String, Object> model, HttpServletRequest request,
-                                           HttpServletResponse response) throws Exception {
+    protected void renderMergedOutputModel(Map<String, Object> model, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         model.remove("titulo");
         Page<Cliente> clientes = (Page<Cliente>) model.get("clientes");
@@ -31,4 +30,5 @@ public class ClienteListXmlView extends MarshallingView {
 
         super.renderMergedOutputModel(model, request, response);
     }
+
 }
