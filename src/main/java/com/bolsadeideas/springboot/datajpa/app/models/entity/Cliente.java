@@ -1,5 +1,6 @@
 package com.bolsadeideas.springboot.datajpa.app.models.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
@@ -11,11 +12,11 @@ import java.util.Date;
 import java.util.List;
 
 @Entity
-@Table(name="clientes")
+@Table(name = "clientes")
 public class Cliente {
 
     @Id
-    @GeneratedValue(strategy= GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @NotEmpty
@@ -31,7 +32,7 @@ public class Cliente {
     private String foto;
 
     @NotNull
-    @Column(name="create_at")
+    @Column(name = "create_at")
     @Temporal(TemporalType.DATE)
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date createAt;
@@ -41,7 +42,8 @@ public class Cliente {
 //        createAt = new Date();
 //    }
 
-    @OneToMany(mappedBy="cliente", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "cliente", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JsonIgnore
     List<Factura> facturas = new ArrayList<>();
 
     public Long getId() {
@@ -100,7 +102,7 @@ public class Cliente {
         this.facturas = facturas;
     }
 
-    public void addFactura(Factura factura){
+    public void addFactura(Factura factura) {
         this.facturas.add(factura);
     }
 
