@@ -117,6 +117,22 @@
             <version>2.3.3</version>
         </dependency>
 
+        <!-- IMP -->
+        <!-- JAXB API only -->
+<!--        <dependency>-->
+<!--            <groupId>jakarta.xml.bind</groupId>-->
+<!--            <artifactId>jakarta.xml.bind-api</artifactId>-->
+<!--            <version>3.0.0</version>-->
+<!--        </dependency>-->
+
+        <!-- JAXB Implementation -->
+        <dependency>
+            <groupId>com.sun.xml.bind</groupId>
+            <artifactId>jaxb-impl</artifactId>
+            <version>3.0.0</version>
+            <scope>runtime</scope>
+        </dependency>
+
         <!-- https://mvnrepository.com/artifact/org.springframework/spring-oxm -->
         <!--        <dependency>-->
         <!--            <groupId>org.springframework</groupId>-->

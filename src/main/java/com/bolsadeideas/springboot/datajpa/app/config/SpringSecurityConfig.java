@@ -86,7 +86,7 @@ public class SpringSecurityConfig {
                 .exceptionHandling().accessDeniedPage("/error_403")
                 .and()
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("/", "/css/**", "/js/**", "/images/**", "/listar", "/locale").permitAll()
+                        .requestMatchers("/", "/api/**",  "/css/**", "/js/**", "/images/**", "/listar", "/locale").permitAll()
                         //.requestMatchers("/ver/**").hasAnyRole("USER")
                         //.requestMatchers("/uploads/**").hasAnyRole("USER")
                         //.requestMatchers("/form/**").hasAnyRole("ADMIN")
